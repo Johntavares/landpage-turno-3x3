@@ -1,0 +1,43 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Profile {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  team      String   @default("A")
+  baseDate  String   @default("2026-07-01")
+  theme     String   @default("system")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  vacations Vacation[]
+}
+
+model Vacation {
+  id        String   @id @default(cuid())
+  userId    String
+  startDate String
+  endDate   String
+  note      String?
+  createdAt DateTime @default(now())
+
+  profile Profile @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Ad {
+  id           String   @id @default(cuid())
+  title        String
+  imageUrl     String
+  link         String
+  active       Boolean  @default(true)
+  displayOrder Int      @default(1)
+  createdAt    DateTime @default(now())
+}

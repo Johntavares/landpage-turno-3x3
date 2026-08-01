@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="pt-BR" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Baixar APK Turno 3x3 - Oficial Android</title>
+    <link rel="icon" type="image/jpeg" href="/logo.jpg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      body {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        background-color: #090d16;
+        color: #f8fafc;
+      }
+      .glass-card {
+        background: rgba(15, 23, 42, 0.8);
+        backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      .glow-amber {
+        box-shadow: 0 0 50px -10px rgba(245, 158, 11, 0.25);
+      }
+      .gradient-text {
+        background: linear-gradient(135deg, #f59e0b 0%, #3b82f6 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .custom-scrollbar::-webkit-scrollbar {
+        height: 6px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-track {
+        background: rgba(15, 23, 42, 0.6);
+        border-radius: 9999px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: #f59e0b;
+        border-radius: 9999px;
+      }
+    </style>
+  </head>
+  <body class="min-h-screen flex flex-col items-center justify-center p-4 sm:p-6 relative overflow-x-hidden">
+    
+    <!-- Glow de fundo -->
+    <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-96 h-96 bg-amber-500/10 blur-[120px] pointer-events-none rounded-full"></div>
+
+    <main class="w-full max-w-lg mx-auto space-y-6 relative z-10 my-6">
+      
+      <!-- Logo Oficial do App -->
+      <div class="text-center space-y-3">
+        <div class="relative inline-block">
+          <img 
+            src="/logo.jpg" 
+            alt="Logo Turno 3x3" 
+            class="w-24 h-24 rounded-3xl mx-auto shadow-2xl shadow-amber-500/20 border-2 border-white/10 object-cover"
+          />
+        </div>
+        <h1 class="text-2xl font-black tracking-tight text-white">TURNO <span class="gradient-text">3X3</span></h1>
+        <p class="text-xs text-slate-400 font-medium">Portal Oficial de Download Android (.APK)</p>
+      </div>
+
+      <!-- Card Principal de Download -->
+      <div class="glass-card rounded-3xl p-6 border border-white/10 glow-amber space-y-5">
+        
+        <!-- Tag de Versão -->
+        <div class="flex items-center justify-between pb-4 border-b border-white/10">
+          <div>
+            <span class="text-[10px] uppercase font-bold tracking-wider text-slate-400">Pacote Compilado Oficial</span>
+            <h3 class="text-base font-extrabold text-white">app-debug.apk (v2.4.0)</h3>
+          </div>
+          <span class="px-2.5 py-1 bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[11px] font-bold rounded-full">
+            PRONTO PARA INSTALAR
+          </span>
+        </div>
+
+        <!-- Detalhes do APK Real -->
+        <div class="space-y-2 text-xs">
+          <div class="flex justify-between py-1.5 border-b border-white/5">
+            <span class="text-slate-400">Arquivo Compilado:</span>
+            <span class="font-mono text-amber-400 font-bold">app-debug.apk</span>
+          </div>
+          <div class="flex justify-between py-1.5 border-b border-white/5">
+            <span class="text-slate-400">Tamanho Real:</span>
+            <span class="font-bold text-white">9.3 MB (9.747.250 bytes)</span>
+          </div>
+          <div class="flex justify-between py-1.5">
+            <span class="text-slate-400">Compatibilidade:</span>
+            <span class="font-semibold text-blue-400">Android 8.0 ou superior</span>
+          </div>
+        </div>
+
+        <!-- Botão de Download Principal -->
+        <a
+          href="/app-debug.apk"
+          download="app-debug.apk"
+          id="btn-download"
+          class="w-full py-4 bg-gradient-to-r from-amber-500 via-orange-500 to-blue-500 hover:from-amber-400 hover:to-blue-400 text-slate-950 font-black text-sm rounded-2xl shadow-xl shadow-amber-500/20 transition-all transform active:scale-95 flex items-center justify-center space-x-2 text-center cursor-pointer"
+        >
+          <svg class="w-5 h-5 stroke-[2.5]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+          </svg>
+          <span>BAIXAR APK REAL (app-debug.apk)</span>
+        </a>
+
+        <!-- Notificação de Sucesso do Clique -->
+        <div id="status-msg" class="hidden p-3 bg-emerald-500/20 border border-emerald-500/30 rounded-xl text-center text-xs text-emerald-300 font-semibold">
+          ✅ Download iniciado! O arquivo <strong>app-debug.apk (9.3 MB)</strong> está sendo salvo no seu celular.
+        </div>
+
+      </div>
+
+      <!-- Carrossel de Prévia das Telas do Aplicativo -->
+      <div class="glass-card rounded-3xl p-5 border border-white/10 space-y-4">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center space-x-2">
+            <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+            </svg>
+            <h3 class="text-xs font-extrabold uppercase tracking-wider text-slate-200">Prévia das Telas do App</h3>
+          </div>
+          <span class="text-[10px] text-amber-400 font-medium">Arraste para o lado &rarr;</span>
+        </div>
+
+        <div class="flex overflow-x-auto space-x-4 pb-3 custom-scrollbar snap-x snap-mandatory">
+          
+          <!-- Tela 1: Login -->
+          <div class="flex-none w-48 snap-center space-y-2">
+            <div class="rounded-2xl overflow-hidden border border-white/10 bg-slate-950 shadow-lg hover:border-amber-500/40 transition-all">
+              <img src="/preview1.png" alt="Tela de Login" class="w-full h-auto object-cover hover:scale-105 transition-transform duration-300" />
+            </div>
+            <p class="text-[11px] font-bold text-center text-slate-300">1. Login & Registro</p>
+          </div>
+
+          <!-- Tela 2: Início -->
+          <div class="flex-none w-48 snap-center space-y-2">
+            <div class="rounded-2xl overflow-hidden border border-white/10 bg-slate-950 shadow-lg hover:border-amber-500/40 transition-all">
+              <img src="/preview2.png" alt="Tela de Início - Status 3x3" class="w-full h-auto object-cover hover:scale-105 transition-transform duration-300" />
+            </div>
+            <p class="text-[11px] font-bold text-center text-slate-300">2. Status de Trabalho</p>
+          </div>
+
+          <!-- Tela 3: Calendário -->
+          <div class="flex-none w-48 snap-center space-y-2">
+            <div class="rounded-2xl overflow-hidden border border-white/10 bg-slate-950 shadow-lg hover:border-amber-500/40 transition-all">
+              <img src="/preview3.png" alt="Tela de Calendário" class="w-full h-auto object-cover hover:scale-105 transition-transform duration-300" />
+            </div>
+            <p class="text-[11px] font-bold text-center text-slate-300">3. Calendário da Escala</p>
+          </div>
+
+          <!-- Tela 4: Perfil -->
+          <div class="flex-none w-48 snap-center space-y-2">
+            <div class="rounded-2xl overflow-hidden border border-white/10 bg-slate-950 shadow-lg hover:border-amber-500/40 transition-all">
+              <img src="/preview4.png" alt="Tela de Perfil" class="w-full h-auto object-cover hover:scale-105 transition-transform duration-300" />
+            </div>
+            <p class="text-[11px] font-bold text-center text-slate-300">4. Perfil & Equipe</p>
+          </div>
+
+          <!-- Tela 5: Ajustes -->
+          <div class="flex-none w-48 snap-center space-y-2">
+            <div class="rounded-2xl overflow-hidden border border-white/10 bg-slate-950 shadow-lg hover:border-amber-500/40 transition-all">
+              <img src="/preview5.png" alt="Tela de Ajustes" class="w-full h-auto object-cover hover:scale-105 transition-transform duration-300" />
+            </div>
+            <p class="text-[11px] font-bold text-center text-slate-300">5. Ajustes & Notificações</p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Guia de Instalação Simplificado -->
+      <div class="glass-card rounded-2xl p-5 border border-white/5 space-y-3">
+        <h4 class="text-xs font-bold uppercase tracking-wider text-slate-300">Como Instalar no Celular:</h4>
+        <ol class="space-y-2 text-xs text-slate-400 leading-relaxed">
+          <li class="flex items-start space-x-2">
+            <span class="font-bold text-amber-400 font-mono">1.</span>
+            <span>Toque no botão laranja acima para baixar o arquivo.</span>
+          </li>
+          <li class="flex items-start space-x-2">
+            <span class="font-bold text-amber-400 font-mono">2.</span>
+            <span>Abra a notificação de download e toque no arquivo <strong class="text-white">app-debug.apk</strong>.</span>
+          </li>
+          <li class="flex items-start space-x-2">
+            <span class="font-bold text-amber-400 font-mono">3.</span>
+            <span>Toque em <strong class="text-white">Instalar</strong> e abra o aplicativo!</span>
+          </li>
+        </ol>
+      </div>
+
+      <footer class="text-center text-[11px] text-slate-500 font-mono">
+        Turno 3x3 • Todos os direitos reservados © 2026
+      </footer>
+
+    </main>
+
+    <script>
+      const btn = document.getElementById('btn-download');
+      const msg = document.getElementById('status-msg');
+      btn.addEventListener('click', () => {
+        msg.classList.remove('hidden');
+      });
+    </script>
+  </body>
+</html>
