@@ -37,7 +37,7 @@
         <!-- Google AdMob - ID do Aplicativo Oficial Turno 3x3 -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-3904079311207107~3347511713"/>
+            android:value="ca-app-pub-5140224476422289~4759924503"/>
 
     </application>
 
