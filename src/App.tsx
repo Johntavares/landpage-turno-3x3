@@ -6,6 +6,7 @@ import { OnboardingModal } from './components/OnboardingModal';
 import { useAuthStore } from './stores/authStore';
 import { useAppStore } from './stores/appStore';
 import { AdMobService } from './services/admob';
+import { LandingPageView } from './pages/LandingPage/LandingPageView';
 
 import { HomeView } from './pages/Home/HomeView';
 import { CalendarView } from './pages/Calendar/CalendarView';
@@ -16,6 +17,7 @@ export const App: React.FC = () => {
   const { isAuthenticated, isOnboarded } = useAuthStore();
   const { theme } = useAppStore();
   const [activeTab, setActiveTab] = useState<TabType>('home');
+  const [showLandingPage, setShowLandingPage] = useState(true);
 
   useEffect(() => {
     const root = document.documentElement;
@@ -39,6 +41,11 @@ export const App: React.FC = () => {
       AdMobService.hideBanner();
     }
   }, [isAuthenticated, isOnboarded]);
+
+  // PASSO 0: Se o usuário ainda não entrou no app, exibe a Landing Page de Apresentação
+  if (showLandingPage) {
+    return <LandingPageView onEnterApp={() => setShowLandingPage(false)} />;
+  }
 
   // PASSO 1: Se o usuário NÃO está autenticado, exibe APENAS a Tela de Login Nativa em Tela Cheia
   if (!isAuthenticated) {
