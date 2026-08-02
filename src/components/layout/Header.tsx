@@ -13,18 +13,18 @@ export const Header: React.FC = () => {
   };
 
   return (
-    <header className="sticky top-0 z-40 flex items-center justify-between border-b border-slate-200/80 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md px-5 py-3">
+    <header className="sticky top-0 z-40 flex items-center justify-between border-b border-slate-200/80 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md px-5 py-2">
       <div className="flex items-center gap-3">
         {/* Logo Oficial do Usuário */}
         <img
           src="/icons/logo.png"
           alt="Turno 3x3 Logo Oficial"
-          className="h-11 w-11 rounded-2xl object-cover shadow-md border border-slate-700/50"
+          className="h-9 w-9 rounded-2xl object-cover shadow-md border border-slate-700/50"
         />
 
         <div>
           {/* Título sem o efeito de pílula/fundo no 3x3 */}
-          <h1 className="text-lg font-black tracking-tight text-slate-900 dark:text-white uppercase leading-none">
+          <h1 className="text-base font-black tracking-tight text-slate-900 dark:text-white uppercase leading-none">
             TURNO 3x3
           </h1>
 

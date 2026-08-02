@@ -57,9 +57,9 @@ export const HomeView: React.FC = () => {
       : 'bg-white text-slate-900 font-black';
 
   return (
-    <div className="space-y-5 animate-in fade-in duration-300">
+    <div className="space-y-4 animate-in fade-in duration-300">
       {/* CARD PRINCIPAL HERO STATUS */}
-      <div className={`relative overflow-hidden rounded-3xl p-6 border-2 shadow-2xl transition-all ${cardGradient}`}>
+      <div className={`relative overflow-hidden rounded-3xl p-5 border-2 shadow-2xl transition-all ${cardGradient}`}>
         <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-white/5 blur-2xl pointer-events-none" />
 
         <div className="flex items-center justify-between text-xs font-bold text-slate-300 mb-5 pb-3 border-b border-white/10">
@@ -82,7 +82,7 @@ export const HomeView: React.FC = () => {
           <div className="mt-2 flex flex-wrap items-center justify-between gap-3">
             <div className="flex items-center gap-3">
               <span className={`h-4 w-4 rounded-full shadow-lg animate-pulse ${statusDotColor}`} />
-              <h2 className="text-3xl font-black tracking-tight text-white">
+              <h2 className="text-2xl font-black tracking-tight text-white">
                 {todayCalc.status === 'WORK' && 'Trabalhando'}
                 {todayCalc.status === 'OFF' && 'De Folga'}
                 {todayCalc.status === 'VACATION' && 'Em Férias'}
@@ -133,21 +133,21 @@ export const HomeView: React.FC = () => {
 
       {/* DASHBOARD DE RESUMOS MENSAIS */}
       <div>
-        <h3 className="text-xs font-extrabold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-3 flex items-center gap-1.5">
+        <h3 className="text-xs font-extrabold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2.5 flex items-center gap-1.5">
           <Sparkles className="h-3.5 w-3.5 text-blue-600" /> Resumo de {today.toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' })}
         </h3>
-        <div className="grid grid-cols-3 gap-3">
-          <Card className="text-center p-3.5 border border-slate-100 dark:border-slate-800">
-            <div className="text-2xl font-black text-emerald-600 dark:text-emerald-400">{totalWorkDays}</div>
-            <div className="text-[11px] font-bold text-slate-500 dark:text-slate-400 mt-1">Dias Trabalhados</div>
+        <div className="grid grid-cols-3 gap-2">
+          <Card className="text-center p-3 border border-slate-100 dark:border-slate-800">
+            <div className="text-xl font-black text-emerald-600 dark:text-emerald-400">{totalWorkDays}</div>
+            <div className="text-[10px] font-bold text-slate-500 dark:text-slate-400 mt-0.5">Dias Trabalhados</div>
           </Card>
-          <Card className="text-center p-3.5 border border-slate-100 dark:border-slate-800">
-            <div className="text-2xl font-black text-slate-700 dark:text-slate-300">{totalOffDays}</div>
-            <div className="text-[11px] font-bold text-slate-500 dark:text-slate-400 mt-1">Dias de Folga</div>
+          <Card className="text-center p-3 border border-slate-100 dark:border-slate-800">
+            <div className="text-xl font-black text-slate-700 dark:text-slate-300">{totalOffDays}</div>
+            <div className="text-[10px] font-bold text-slate-500 dark:text-slate-400 mt-0.5">Dias de Folga</div>
           </Card>
-          <Card className="text-center p-3.5 border border-slate-100 dark:border-slate-800">
-            <div className="text-2xl font-black text-amber-600 dark:text-amber-400">{workedHolidaysCount}</div>
-            <div className="text-[11px] font-bold text-slate-500 dark:text-slate-400 mt-1">Feriados 100%</div>
+          <Card className="text-center p-3 border border-slate-100 dark:border-slate-800">
+            <div className="text-xl font-black text-amber-600 dark:text-amber-400">{workedHolidaysCount}</div>
+            <div className="text-[10px] font-bold text-slate-500 dark:text-slate-400 mt-0.5">Feriados 100%</div>
           </Card>
         </div>
       </div>
@@ -173,10 +173,10 @@ export const HomeView: React.FC = () => {
       </Card>
 
       {/* CARD 1 DE ANÚNCIO DO GOOGLE ADMOB (SLOT NATIVO 1) */}
-      <AdCard ad={ads[0]} adUnitId="ca-app-pub-3904079311207107/slot1-home-banner" />
+      <AdCard ad={ads[0]} adUnitId="ca-app-pub-5140224476422289/9928490703" />
 
       {/* CARD 2 DE ANÚNCIO DO GOOGLE ADMOB (SLOT NATIVO 2 / PROPAGANDA SECUNDÁRIA) */}
-      <AdCard ad={ads[1] || ads[0]} adUnitId="ca-app-pub-3904079311207107/slot2-home-native" />
+      <AdCard ad={ads[1] || ads[0]} adUnitId="ca-app-pub-5140224476422289/9928490703" />
     </div>
   );
 };

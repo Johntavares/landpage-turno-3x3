@@ -1,11 +1,11 @@
 import { AdMob, BannerAdSize, BannerAdPosition, BannerAdPluginEvents } from '@capacitor-community/admob';
 import { Capacitor } from '@capacitor/core';
 
-// IDs Oficiais de Teste do Google AdMob para Android
+// IDs Oficiais do Google AdMob para Android (Turno 3x3)
 export const ADMOB_TEST_IDS = {
-  APP_ID: 'ca-app-pub-3904079311207107~3347511713',
-  BANNER: 'ca-app-pub-3904079311207107/6300978111',
-  INTERSTITIAL: 'ca-app-pub-3904079311207107/1033173712',
+  APP_ID: 'ca-app-pub-5140224476422289~4759924503',
+  BANNER: 'ca-app-pub-5140224476422289/9928490703',
+  INTERSTITIAL: 'ca-app-pub-5140224476422289/9928490703', // Atualize este ID quando criar o bloco Intersticial
 };
 
 export class AdMobService {

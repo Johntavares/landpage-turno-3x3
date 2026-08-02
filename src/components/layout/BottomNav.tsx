@@ -10,14 +10,14 @@ interface BottomNavProps {
 
 export const BottomNav: React.FC<BottomNavProps> = ({ activeTab, onTabChange }) => {
   const tabs: { id: TabType; label: string; icon: React.ReactNode }[] = [
-    { id: 'home', label: 'Início', icon: <Home className="h-5 w-5" /> },
-    { id: 'calendar', label: 'Calendário', icon: <Calendar className="h-5 w-5" /> },
-    { id: 'profile', label: 'Perfil', icon: <User className="h-5 w-5" /> },
-    { id: 'settings', label: 'Ajustes', icon: <Settings className="h-5 w-5" /> },
+    { id: 'home', label: 'Início', icon: <Home className="h-[18px] w-[18px]" /> },
+    { id: 'calendar', label: 'Calendário', icon: <Calendar className="h-[18px] w-[18px]" /> },
+    { id: 'profile', label: 'Perfil', icon: <User className="h-[18px] w-[18px]" /> },
+    { id: 'settings', label: 'Ajustes', icon: <Settings className="h-[18px] w-[18px]" /> },
   ];
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-40 mx-auto max-w-md border-t border-slate-200/80 bg-white/95 backdrop-blur-md dark:border-slate-800 dark:bg-slate-900/95 px-3 py-2 pb-safe">
+    <nav className="fixed bottom-0 left-0 right-0 z-40 mx-auto max-w-md border-t border-slate-200/80 bg-white/95 backdrop-blur-md dark:border-slate-800 dark:bg-slate-900/95 px-3 py-1.5 pb-safe">
       <div className="flex items-center justify-around">
         {tabs.map((tab) => {
           const isActive = activeTab === tab.id;
