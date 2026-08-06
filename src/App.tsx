@@ -23,13 +23,18 @@ export const App: React.FC = () => {
     const root = document.documentElement;
     if (theme === 'dark') {
       root.classList.add('dark');
+      root.style.colorScheme = 'dark';
     } else if (theme === 'light') {
       root.classList.remove('dark');
+      root.style.colorScheme = 'light';
     } else {
-      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (isDark) {
         root.classList.add('dark');
+        root.style.colorScheme = 'dark';
       } else {
         root.classList.remove('dark');
+        root.style.colorScheme = 'light';
       }
     }
   }, [theme]);
