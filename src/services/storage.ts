@@ -14,6 +14,7 @@ const STORAGE_KEYS = {
   CUSTOM_HOLIDAYS: 'turno3x3_custom_holidays',
   THEME: 'turno3x3_theme',
   NOTIFICATIONS: 'turno3x3_notifications',
+  ADS: 'turno3x3_managed_ads',
 };
 
 // ==================== LOCAL STORAGE SERVICES (OFFLINE-FIRST) ====================
@@ -58,6 +59,21 @@ export function getLocalCustomHolidays(): Holiday[] {
 
 export function saveLocalCustomHolidays(holidays: Holiday[]): void {
   localStorage.setItem(STORAGE_KEYS.CUSTOM_HOLIDAYS, JSON.stringify(holidays));
+}
+
+export function getLocalAds(): Ad[] {
+  const data = localStorage.getItem(STORAGE_KEYS.ADS);
+  if (!data) return getFallbackAd();
+  try {
+    const parsed = JSON.parse(data);
+    return parsed.length > 0 ? parsed : getFallbackAd();
+  } catch {
+    return getFallbackAd();
+  }
+}
+
+export function saveLocalAds(ads: Ad[]): void {
+  localStorage.setItem(STORAGE_KEYS.ADS, JSON.stringify(ads));
 }
 
 // ==================== NEON POSTGRESQL REMOTE SERVICES ====================
@@ -135,7 +151,7 @@ export async function fetchRemoteAds(): Promise<Ad[]> {
       WHERE active = true
       ORDER BY display_order ASC
     `;
-    if (!rows || rows.length === 0) return getFallbackAd();
+    if (!rows || rows.length === 0) return getLocalAds();
     return rows.map((ad: any) => ({
       id: ad.id,
       title: ad.title,
@@ -143,21 +159,63 @@ export async function fetchRemoteAds(): Promise<Ad[]> {
       link: ad.link,
       active: ad.active,
       displayOrder: ad.displayOrder,
+      location: ad.location || 'HOME',
     }));
   } catch {
-    return getFallbackAd();
+    return getLocalAds();
   }
+}
+
+export function saveManagedAd(ad: Ad): Ad[] {
+  const currentAds = getLocalAds();
+  const existingIdx = currentAds.findIndex((a) => a.id === ad.id);
+  let updated: Ad[];
+
+  if (existingIdx >= 0) {
+    updated = currentAds.map((a) => (a.id === ad.id ? ad : a));
+  } else {
+    updated = [ad, ...currentAds];
+  }
+
+  saveLocalAds(updated);
+  return updated;
+}
+
+export function deleteManagedAd(id: string): Ad[] {
+  const currentAds = getLocalAds();
+  const updated = currentAds.filter((a) => a.id !== id);
+  saveLocalAds(updated);
+  return updated;
+}
+
+export function toggleManagedAd(id: string): Ad[] {
+  const currentAds = getLocalAds();
+  const updated = currentAds.map((a) => (a.id === id ? { ...a, active: !a.active } : a));
+  saveLocalAds(updated);
+  return updated;
 }
 
 function getFallbackAd(): Ad[] {
   return [
     {
-      id: 'fallback-ad-1',
-      title: 'Equipamentos e EPIs de Mineração',
-      imageUrl: 'https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&w=600&q=80',
-      link: 'https://github.com/Johntavares/MineMesh-Tracker',
+      id: 'banner-home-default',
+      title: 'Banner Promocional - Turno 3x3 Pro',
+      imageUrl: 'https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&w=800&q=80',
+      link: 'https://turno3x3.app',
       active: true,
       displayOrder: 1,
+      location: 'HOME',
+    },
+    {
+      id: 'banner-profile-default',
+      title: 'Seguro & Benefícios para Operadores',
+      imageUrl: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=80',
+      link: 'https://turno3x3.app',
+      active: true,
+      displayOrder: 2,
+      location: 'PROFILE',
     },
   ];
 }
+
+

@@ -8,6 +8,54 @@ export const SettingsView: React.FC = () => {
   const { theme, setTheme, notificationsEnabled, setNotificationsEnabled } = useAppStore();
   const { user } = useAuthStore();
 
+
+
+
+
+  const handleToggleNotifications = async () => {
+    const nextState = !notificationsEnabled;
+    setNotificationsEnabled(nextState);
+
+    if (nextState && 'Notification' in window) {
+      try {
+        const permission = await Notification.requestPermission();
+        if (permission === 'granted') {
+          new Notification('Turno 3x3 🔔', {
+            body: 'Notificações ativadas! Você receberá avisos sobre seus plantões, trocas e folgas.',
+            icon: '/logo.jpg',
+          });
+        }
+      } catch (err) {
+        console.warn('Erro ao solicitar permissão de notificação:', err);
+      }
+    }
+  };
+
+  const handleSendTestNotification = () => {
+    if (!('Notification' in window)) {
+      alert('Seu navegador não suporta Notificações Web.');
+      return;
+    }
+
+    if (Notification.permission === 'granted') {
+      new Notification('Turno 3x3 - Alerta de Teste ⏰', {
+        body: 'O seu sistema de notificações de turno e folgas está funcionando perfeitamente!',
+        icon: '/logo.jpg',
+      });
+    } else {
+      Notification.requestPermission().then((perm) => {
+        if (perm === 'granted') {
+          new Notification('Turno 3x3 - Alerta de Teste ⏰', {
+            body: 'O seu sistema de notificações de turno e folgas está funcionando perfeitamente!',
+            icon: '/logo.jpg',
+          });
+        } else {
+          alert('Por favor, permita as notificações nas configurações do seu navegador ou dispositivo.');
+        }
+      });
+    }
+  };
+
   return (
     <div className="space-y-4 animate-in fade-in duration-300">
       <div>
@@ -54,15 +102,15 @@ export const SettingsView: React.FC = () => {
           <div className="flex items-center gap-2">
             <Bell className="h-5 w-5 text-blue-600" />
             <div>
-              <h3 className="text-sm font-bold text-slate-900 dark:text-white">Notificações Locais</h3>
+              <h3 className="text-sm font-bold text-slate-900 dark:text-white">Notificações do App</h3>
               <p className="text-xs text-slate-500 dark:text-slate-400">
-                Avisos de primeiro e último dia de turno/folga
+                Avisos de plantões, trocas de turno e folgas
               </p>
             </div>
           </div>
 
           <button
-            onClick={() => setNotificationsEnabled(!notificationsEnabled)}
+            onClick={handleToggleNotifications}
             className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-hidden ${
               notificationsEnabled ? 'bg-blue-600' : 'bg-slate-300 dark:bg-slate-700'
             }`}
@@ -76,18 +124,29 @@ export const SettingsView: React.FC = () => {
         </div>
 
         {notificationsEnabled && (
-          <div className="space-y-2 pt-2 border-t border-slate-100 dark:border-slate-800 text-xs text-slate-600 dark:text-slate-400">
-            <div className="flex items-center gap-2">
-              <span className="h-1.5 w-1.5 rounded-full bg-blue-500" /> Primeiro dia de trabalho
+          <div className="space-y-3 pt-2 border-t border-slate-100 dark:border-slate-800 text-xs text-slate-600 dark:text-slate-400">
+            <div className="space-y-1.5">
+              <div className="flex items-center gap-2">
+                <span className="h-1.5 w-1.5 rounded-full bg-blue-500" /> Primeiro dia de trabalho (Início de ciclo)
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="h-1.5 w-1.5 rounded-full bg-blue-500" /> Trocas entre Dia ☀️ e Noite 🌙
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" /> Início da Folga
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="h-1.5 w-1.5 rounded-full bg-cyan-500" /> Lembrete de Férias ativas
+              </div>
             </div>
-            <div className="flex items-center gap-2">
-              <span className="h-1.5 w-1.5 rounded-full bg-blue-500" /> Último dia de trabalho
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" /> Início da folga
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="h-1.5 w-1.5 rounded-full bg-cyan-500" /> Início e término de férias
+
+            <div className="pt-2">
+              <button
+                onClick={handleSendTestNotification}
+                className="w-full py-2 px-3 bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-800/80 text-blue-700 dark:text-blue-300 rounded-xl font-bold text-xs flex items-center justify-center gap-2 hover:bg-blue-100 dark:hover:bg-blue-900/80 transition-colors cursor-pointer"
+              >
+                <Bell className="h-3.5 w-3.5" /> Testar Notificação Agora
+              </button>
             </div>
           </div>
         )}
@@ -124,7 +183,16 @@ export const SettingsView: React.FC = () => {
           </span>
           <span className="font-bold text-slate-900 dark:text-white">2.4.0 (Build APK)</span>
         </div>
+
+        <div className="pt-2 border-t border-slate-100 dark:border-slate-800 text-center">
+          <span className="text-[11px] font-extrabold text-blue-600 dark:text-blue-400 uppercase tracking-widest">
+            Um produto VERTEX
+          </span>
+        </div>
       </Card>
     </div>
   );
 };
+
+
+

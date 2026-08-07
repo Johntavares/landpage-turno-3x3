@@ -7,6 +7,8 @@ import type { CalculatedDay } from '../../types';
 import { Card } from '../../components/ui/Card';
 import { Badge } from '../../components/ui/Badge';
 import { BottomSheet } from '../../components/ui/BottomSheet';
+import { AdCard } from '../../components/ui/AdCard';
+
 
 export const CalendarView: React.FC = () => {
   const { user } = useAuthStore();
@@ -207,6 +209,10 @@ export const CalendarView: React.FC = () => {
           </div>
         )}
       </BottomSheet>
+
+      {/* BLOCO DE ANÚNCIO ADMOB NO CALENDÁRIO */}
+      <AdCard adUnitId="ca-app-pub-5140224476422289/9928490703" />
     </div>
   );
 };
+

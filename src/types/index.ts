@@ -38,7 +38,9 @@ export interface Ad {
   link: string;
   active: boolean;
   displayOrder: number;
+  location?: 'HOME' | 'PROFILE' | 'ALL';
 }
+
 
 export interface CalculatedDay {
   date: string; // YYYY-MM-DD

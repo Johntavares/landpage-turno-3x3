@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { User, Mail, Shield, Save, Check, Sparkles, HelpCircle, LogOut } from 'lucide-react';
 import { useAuthStore } from '../../stores/authStore';
+import { useAppStore } from '../../stores/appStore';
 import type { TeamType } from '../../types';
 import { Card } from '../../components/ui/Card';
+import { CustomManagedBanner } from '../../components/ui/CustomManagedBanner';
+
 import {
   calculateBaseDateFromStatus,
   calculateScheduleDay,
@@ -202,6 +205,15 @@ export const ProfileView: React.FC = () => {
           </button>
         </form>
       </Card>
+
+      {/* BANNER 3: GERENCIÁVEL PELO PAINEL ADMIN NO PERFIL */}
+      <CustomManagedBanner
+        ad={useAppStore.getState().ads.find((a) => a.location === 'PROFILE') || useAppStore.getState().ads[1]}
+        fallbackTitle="Seguro & Benefícios para Operadores de Revezamento"
+        fallbackImage="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=80"
+        fallbackLink="https://turno3x3.app"
+      />
     </div>
   );
 };
+

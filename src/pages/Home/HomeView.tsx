@@ -5,6 +5,8 @@ import { useAppStore } from '../../stores/appStore';
 import { calculateScheduleDay, getNextShiftChangeInfo, calculateMonthSchedule, formatDateISO } from '../../services/schedule';
 import { Card } from '../../components/ui/Card';
 import { AdCard } from '../../components/ui/AdCard';
+import { CustomManagedBanner } from '../../components/ui/CustomManagedBanner';
+
 
 export const HomeView: React.FC = () => {
   const { user } = useAuthStore();
@@ -172,11 +174,17 @@ export const HomeView: React.FC = () => {
         </div>
       </Card>
 
-      {/* CARD 1 DE ANÚNCIO DO GOOGLE ADMOB (SLOT NATIVO 1) */}
-      <AdCard ad={ads[0]} adUnitId="ca-app-pub-5140224476422289/9928490703" />
+      {/* BANNER 1: GERENCIÁVEL PELO PAINEL ADMIN */}
+      <CustomManagedBanner
+        ad={ads.find((a) => a.location === 'HOME') || ads[0]}
+        fallbackTitle="Banner Promocional - Turno 3x3 Pro"
+        fallbackImage="https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&w=800&q=80"
+        fallbackLink="https://turno3x3.app"
+      />
 
-      {/* CARD 2 DE ANÚNCIO DO GOOGLE ADMOB (SLOT NATIVO 2 / PROPAGANDA SECUNDÁRIA) */}
-      <AdCard ad={ads[1] || ads[0]} adUnitId="ca-app-pub-5140224476422289/9928490703" />
+      {/* BANNER 2: GOOGLE ADMOB OFICIAL */}
+      <AdCard adUnitId="ca-app-pub-5140224476422289/9928490703" />
     </div>
   );
 };
+

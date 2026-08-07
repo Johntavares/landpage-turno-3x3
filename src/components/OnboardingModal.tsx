@@ -41,10 +41,11 @@ export const OnboardingModal: React.FC = () => {
       <div className="w-full max-w-md rounded-3xl bg-white p-6 shadow-2xl dark:bg-slate-900 border border-slate-100 dark:border-slate-800 max-h-[90vh] overflow-y-auto">
         <div className="text-center mb-5">
           <img
-            src="/icons/logo.png"
+            src="/logo.png"
             alt="Turno 3x3 Logo Oficial"
-            className="mx-auto mb-3 h-16 w-16 rounded-2xl object-cover shadow-xl border border-slate-700/40 ring-4 ring-amber-500/20"
+            className="mx-auto mb-3 h-16 w-auto object-contain"
           />
+
           <h2 className="text-xl font-black text-slate-900 dark:text-white">Bem-vindo ao Turno 3x3</h2>
           <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
             Configure seu perfil e escala em segundos.

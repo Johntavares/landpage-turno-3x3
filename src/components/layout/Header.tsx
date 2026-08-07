@@ -17,10 +17,11 @@ export const Header: React.FC = () => {
       <div className="flex items-center gap-3">
         {/* Logo Oficial do Usuário */}
         <img
-          src="/icons/logo.png"
+          src="/logo.png"
           alt="Turno 3x3 Logo Oficial"
-          className="h-9 w-9 rounded-2xl object-cover shadow-md border border-slate-700/50"
+          className="h-9 w-auto object-contain shrink-0"
         />
+
 
         <div>
           {/* Título sem o efeito de pílula/fundo no 3x3 */}

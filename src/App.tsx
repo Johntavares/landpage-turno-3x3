@@ -7,6 +7,8 @@ import { useAuthStore } from './stores/authStore';
 import { useAppStore } from './stores/appStore';
 import { AdMobService } from './services/admob';
 import { LandingPageView } from './pages/LandingPage/LandingPageView';
+import { AdminView } from './pages/Admin/AdminView';
+import { trackAppAccess } from './services/telemetry';
 
 import { HomeView } from './pages/Home/HomeView';
 import { CalendarView } from './pages/Calendar/CalendarView';
@@ -14,10 +16,18 @@ import { ProfileView } from './pages/Profile/ProfileView';
 import { SettingsView } from './pages/Settings/SettingsView';
 
 export const App: React.FC = () => {
-  const { isAuthenticated, isOnboarded } = useAuthStore();
+  const { isAuthenticated, isOnboarded, user } = useAuthStore();
   const { theme } = useAppStore();
   const [activeTab, setActiveTab] = useState<TabType>('home');
   const [showLandingPage, setShowLandingPage] = useState(true);
+  const [showAdmin, setShowAdmin] = useState(false);
+
+  // Registrar acesso/telemetria no início (funciona online e offline)
+  useEffect(() => {
+    if (!showLandingPage) {
+      trackAppAccess(user?.email || 'visitante@turno3x3.app', user?.team || 'A');
+    }
+  }, [showLandingPage, user]);
 
   useEffect(() => {
     const root = document.documentElement;
@@ -47,14 +57,25 @@ export const App: React.FC = () => {
     }
   }, [isAuthenticated, isOnboarded]);
 
+  // Exibir Painel Administrativo se ativado
+  if (showAdmin) {
+    return (
+      <div className="min-h-screen bg-slate-950 p-4">
+        <div className="max-w-6xl mx-auto">
+          <AdminView onBack={() => setShowAdmin(false)} />
+        </div>
+      </div>
+    );
+  }
+
   // PASSO 0: Se o usuário ainda não entrou no app, exibe a Landing Page de Apresentação
   if (showLandingPage) {
     return <LandingPageView onEnterApp={() => setShowLandingPage(false)} />;
   }
 
-  // PASSO 1: Se o usuário NÃO está autenticado, exibe APENAS a Tela de Login Nativa em Tela Cheia
+  // PASSO 1: Se o usuário NÃO está autenticado, exibe a Tela de Login (Redireciona para o Admin se for login administrativo)
   if (!isAuthenticated) {
-    return <AuthView />;
+    return <AuthView onAdminLogin={() => setShowAdmin(true)} />;
   }
 
   // PASSO 2: Se o usuário criou a conta / fez login mas ainda NÃO configurou a escala, exibe a Tela de Onboarding
@@ -77,6 +98,7 @@ export const App: React.FC = () => {
         return <HomeView />;
     }
   };
+
 
   return (
     <MobileLayout activeTab={activeTab} onTabChange={setActiveTab}>
