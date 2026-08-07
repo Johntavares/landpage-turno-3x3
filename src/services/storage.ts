@@ -63,16 +63,29 @@ export function saveLocalCustomHolidays(holidays: Holiday[]): void {
 
 export function getLocalAds(): Ad[] {
   const data = localStorage.getItem(STORAGE_KEYS.ADS);
-  if (!data) return getFallbackAd();
+  if (!data) {
+    const defaultAds = getFallbackAd();
+    saveLocalAds(defaultAds);
+    return defaultAds;
+  }
   try {
     const parsed: Ad[] = JSON.parse(data);
+    // Se o array tiver o anúncio antigo 'banner-home-default' ou não tiver a Daiana Timóteo, substitui
+    const hasOldDefault = parsed.some((a) => a.id === 'banner-home-default');
     const hasDaiana = parsed.some((a) => a.id === 'daiana-timoteo-estetica');
-    if (!hasDaiana) return getFallbackAd();
-    return parsed.length > 0 ? parsed : getFallbackAd();
+    if (hasOldDefault || !hasDaiana || parsed.length === 0) {
+      const defaultAds = getFallbackAd();
+      saveLocalAds(defaultAds);
+      return defaultAds;
+    }
+    return parsed;
   } catch {
-    return getFallbackAd();
+    const defaultAds = getFallbackAd();
+    saveLocalAds(defaultAds);
+    return defaultAds;
   }
 }
+
 
 
 export function saveLocalAds(ads: Ad[]): void {

@@ -5,8 +5,10 @@ import {
   saveLocalVacations,
   getLocalCustomHolidays,
   saveLocalCustomHolidays,
+  getLocalAds,
   fetchRemoteAds,
 } from '../services/storage';
+
 import { getNationalHolidays } from '../services/holidays';
 
 interface AppState {
@@ -47,8 +49,10 @@ export const useAppStore = create<AppState>((set, get) => {
     vacations: initialVacations,
     customHolidays: initialCustomHolidays,
     allHolidays: [...nationalHolidays, ...initialCustomHolidays],
-    ads: [],
+    ads: getLocalAds(),
     notificationsEnabled: localStorage.getItem('turno3x3_notifications') !== 'false',
+
+
     theme: initialTheme,
 
     addVacation: (v) => {
