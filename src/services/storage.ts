@@ -63,44 +63,27 @@ export function saveLocalCustomHolidays(holidays: Holiday[]): void {
 
 export function getLocalAds(): Ad[] {
   const data = localStorage.getItem(STORAGE_KEYS.ADS);
-  const fallback = getFallbackAd();
-
-  if (!data) {
-    saveLocalAds(fallback);
-    return fallback;
-  }
+  if (!data) return [];
   try {
-    let parsed: Ad[] = JSON.parse(data);
-
-    // Purga qualquer anúncio de teste antigo com imagens do Unsplash ou títulos genéricos
-    parsed = parsed.filter(
+    const parsed: Ad[] = JSON.parse(data);
+    // Purga anúncios de teste antigos
+    return parsed.filter(
       (a) =>
         a.id !== 'banner-home-default' &&
+        a.id !== 'banner-profile-default' &&
         !a.imageUrl?.includes('unsplash.com') &&
         !a.title?.includes('Equipamentos') &&
         !a.title?.includes('Turno 3x3 Pro')
     );
-
-    // Garante que o anúncio oficial da Daiana Timóteo esteja presente e ativo
-    const hasDaiana = parsed.some((a) => a.id === 'daiana-timoteo-estetica');
-    if (!hasDaiana) {
-      parsed = [...fallback, ...parsed];
-    }
-
-    saveLocalAds(parsed);
-    return parsed;
   } catch {
-    saveLocalAds(fallback);
-    return fallback;
+    return [];
   }
 }
-
-
-
 
 export function saveLocalAds(ads: Ad[]): void {
   localStorage.setItem(STORAGE_KEYS.ADS, JSON.stringify(ads));
 }
+
 
 // ==================== NEON POSTGRESQL REMOTE SERVICES ====================
 
@@ -221,28 +204,8 @@ export function toggleManagedAd(id: string): Ad[] {
   return updated;
 }
 
-function getFallbackAd(): Ad[] {
-  return [
-    {
-      id: 'daiana-timoteo-estetica',
-      title: 'Daiana Timóteo - Estética Facial (Parauapebas - PA)',
-      imageUrl: '/ads/daiana-timoteo.jpg',
-      link: 'https://wa.me/5594988026574?text=Ol%C3%A1!%20Vi%20seu%20an%C3%BAncio%20no%20app%20Turno%203x3%20e%20gostaria%20de%20agendar%20uma%20avalia%C3%A7%C3%A3o.',
-      active: true,
-      displayOrder: 1,
-      location: 'HOME',
-    },
-    {
-      id: 'banner-profile-default',
-      title: 'Seguro & Benefícios para Operadores',
-      imageUrl: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=80',
-      link: 'https://wa.me/5594988026574?text=Ol%C3%A1!%20Vi%20seu%20an%C3%BAncio%20no%20app%20Turno%203x3%20e%20gostaria%20de%20agendar%20uma%20avalia%C3%A7%C3%A3o.',
-      active: true,
-      displayOrder: 2,
-      location: 'PROFILE',
-    },
-  ];
-}
+
+
 
 
 

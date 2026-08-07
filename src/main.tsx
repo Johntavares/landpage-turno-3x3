@@ -11,11 +11,14 @@ try {
     adsData &&
     (adsData.includes('Equipamentos') ||
       adsData.includes('banner-home-default') ||
-      adsData.includes('unsplash.com'))
+      adsData.includes('banner-profile-default') ||
+      adsData.includes('unsplash.com') ||
+      adsData.includes('daiana-timoteo'))
   ) {
     localStorage.removeItem('turno3x3_managed_ads');
   }
 } catch (e) {}
+
 
 createRoot(document.getElementById('root')!).render(
 
