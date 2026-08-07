@@ -65,12 +65,15 @@ export function getLocalAds(): Ad[] {
   const data = localStorage.getItem(STORAGE_KEYS.ADS);
   if (!data) return getFallbackAd();
   try {
-    const parsed = JSON.parse(data);
+    const parsed: Ad[] = JSON.parse(data);
+    const hasDaiana = parsed.some((a) => a.id === 'daiana-timoteo-estetica');
+    if (!hasDaiana) return getFallbackAd();
     return parsed.length > 0 ? parsed : getFallbackAd();
   } catch {
     return getFallbackAd();
   }
 }
+
 
 export function saveLocalAds(ads: Ad[]): void {
   localStorage.setItem(STORAGE_KEYS.ADS, JSON.stringify(ads));
@@ -198,10 +201,10 @@ export function toggleManagedAd(id: string): Ad[] {
 function getFallbackAd(): Ad[] {
   return [
     {
-      id: 'banner-home-default',
-      title: 'Banner Promocional - Turno 3x3 Pro',
-      imageUrl: 'https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&w=800&q=80',
-      link: 'https://turno3x3.app',
+      id: 'daiana-timoteo-estetica',
+      title: 'Daiana Timóteo - Estética Facial (Parauapebas - PA)',
+      imageUrl: '/ads/daiana-timoteo.jpg',
+      link: 'https://wa.me/5594988026574?text=Ol%C3%A1!%20Vi%20seu%20an%C3%BAncio%20no%20app%20Turno%203x3%20e%20gostaria%20de%20agendar%20uma%20avalia%C3%A7%C3%A3o.',
       active: true,
       displayOrder: 1,
       location: 'HOME',
@@ -210,12 +213,13 @@ function getFallbackAd(): Ad[] {
       id: 'banner-profile-default',
       title: 'Seguro & Benefícios para Operadores',
       imageUrl: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=80',
-      link: 'https://turno3x3.app',
+      link: 'https://wa.me/5594988026574?text=Ol%C3%A1!%20Vi%20seu%20an%C3%BAncio%20no%20app%20Turno%203x3%20e%20gostaria%20de%20agendar%20uma%20avalia%C3%A7%C3%A3o.',
       active: true,
       displayOrder: 2,
       location: 'PROFILE',
     },
   ];
 }
+
 
 
