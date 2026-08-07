@@ -19,8 +19,17 @@ export const App: React.FC = () => {
   const { isAuthenticated, isOnboarded, user } = useAuthStore();
   const { theme } = useAppStore();
   const [activeTab, setActiveTab] = useState<TabType>('home');
-  const [showLandingPage, setShowLandingPage] = useState(true);
+  const [showLandingPage, setShowLandingPage] = useState(() => {
+    // Se aberto como PWA instalado (standalone) ou via ?mode=app ou #app, abre direto no App sem exibir a Landing Page!
+    const isPWA =
+      window.matchMedia('(display-mode: standalone)').matches ||
+      (navigator as any).standalone === true ||
+      window.location.search.includes('mode=app') ||
+      window.location.hash === '#app';
+    return !isPWA;
+  });
   const [showAdmin, setShowAdmin] = useState(false);
+
 
   // Registrar acesso/telemetria no início (funciona online e offline)
   useEffect(() => {
