@@ -206,13 +206,11 @@ export const ProfileView: React.FC = () => {
         </form>
       </Card>
 
-      {/* BANNER 3: GERENCIÁVEL PELO PAINEL ADMIN NO PERFIL */}
+      {/* BANNER: GERENCIÁVEL PELO PAINEL ADMIN NO PERFIL */}
       <CustomManagedBanner
-        ad={useAppStore.getState().ads.find((a) => a.location === 'PROFILE') || useAppStore.getState().ads[1]}
-        fallbackTitle="Seguro & Benefícios para Operadores de Revezamento"
-        fallbackImage="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=80"
-        fallbackLink="https://turno3x3.app"
+        ad={useAppStore.getState().ads.find((a) => a.active && a.location === 'PROFILE')}
       />
+
     </div>
   );
 };

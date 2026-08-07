@@ -174,16 +174,14 @@ export const HomeView: React.FC = () => {
         </div>
       </Card>
 
-      {/* BANNER 1: GERENCIÁVEL PELO PAINEL ADMIN */}
+      {/* BANNER GERENCIÁVEL PELO PAINEL ADMIN (OCULTO SE NÃO HOUVER ANÚNCIO ATIVO) */}
       <CustomManagedBanner
-        ad={ads.find((a) => a.location === 'HOME') || ads[0]}
-        fallbackTitle="Banner Promocional - Turno 3x3 Pro"
-        fallbackImage="https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&w=800&q=80"
-        fallbackLink="https://turno3x3.app"
+        ad={ads.find((a) => a.active && (a.location === 'HOME' || !a.location))}
       />
 
-      {/* BANNER 2: GOOGLE ADMOB OFICIAL */}
+      {/* BANNER GOOGLE ADMOB (OCULTO NA VERSÃO PWA, NATIVO APENAS NO APK ANDROID) */}
       <AdCard adUnitId="ca-app-pub-5140224476422289/9928490703" />
+
     </div>
   );
 };
