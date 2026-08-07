@@ -40,7 +40,8 @@ export const useAppStore = create<AppState>((set, get) => {
   const initialVacations = getLocalVacations();
   const initialCustomHolidays = getLocalCustomHolidays();
   
-  const initialTheme = (localStorage.getItem('turno3x3_theme') as AppState['theme']) || 'system';
+  const initialTheme = (localStorage.getItem('turno3x3_theme') as AppState['theme']) || 'dark';
+
 
   return {
     vacations: initialVacations,
