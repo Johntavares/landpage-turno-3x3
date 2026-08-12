@@ -171,15 +171,18 @@ export async function fetchRemoteAds(): Promise<Ad[]> {
       ORDER BY display_order ASC
     `;
     if (!rows || rows.length === 0) return getLocalAds();
-    return rows.map((ad: any) => ({
-      id: ad.id,
-      title: ad.title,
-      imageUrl: ad.imageUrl,
-      link: ad.link,
-      active: ad.active,
-      displayOrder: ad.displayOrder,
-      location: ad.location || 'HOME',
-    }));
+    const validRows = rows
+      .filter((ad: any) => !ad.link?.includes('github.com') && !ad.imageUrl?.includes('github.com') && !ad.imageUrl?.includes('unsplash.com'))
+      .map((ad: any) => ({
+        id: ad.id,
+        title: ad.title,
+        imageUrl: ad.imageUrl,
+        link: ad.link,
+        active: ad.active,
+        displayOrder: ad.displayOrder,
+        location: ad.location || 'HOME',
+      }));
+    return validRows.length > 0 ? validRows : getLocalAds();
   } catch {
     return getLocalAds();
   }
