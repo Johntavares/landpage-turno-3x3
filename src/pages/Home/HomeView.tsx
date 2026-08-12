@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
-import { Calendar as CalendarIcon, Clock, AlertTriangle, Sparkles, ArrowUpRight } from 'lucide-react';
+import { Calendar as CalendarIcon, Clock, AlertTriangle, Sparkles, ArrowUpRight, Share2 } from 'lucide-react';
 import { useAuthStore } from '../../stores/authStore';
 import { useAppStore } from '../../stores/appStore';
 import { calculateScheduleDay, getNextShiftChangeInfo, calculateMonthSchedule, formatDateISO } from '../../services/schedule';
 import { Card } from '../../components/ui/Card';
 import { AdCard } from '../../components/ui/AdCard';
 import { CustomManagedBanner } from '../../components/ui/CustomManagedBanner';
+import { shareApp } from '../../utils/share';
 
 
 export const HomeView: React.FC = () => {
@@ -171,6 +172,30 @@ export const HomeView: React.FC = () => {
             <span className="font-semibold text-slate-600 dark:text-slate-400">Próximo Retorno ao Trabalho</span>
             <span className="font-bold text-slate-900 dark:text-white text-sm">{formatDisplayDate(shiftInfo.nextWorkDate)}</span>
           </div>
+        </div>
+      </Card>
+
+      {/* CARD DE COMPARTILHAMENTO DO APP COM COLEGAS */}
+      <Card className="relative overflow-hidden border border-blue-200/80 dark:border-blue-900/60 bg-gradient-to-r from-blue-950 via-slate-900 to-indigo-950 p-4 text-white shadow-lg">
+        <div className="flex items-center justify-between gap-3">
+          <div className="flex items-center gap-3">
+            <div className="p-2.5 rounded-2xl bg-blue-600/90 text-white shadow-md border border-blue-400/30 shrink-0">
+              <Share2 className="h-5 w-5" />
+            </div>
+            <div>
+              <h4 className="font-extrabold text-sm text-white">Gostou do Turno 3x3?</h4>
+              <p className="text-xs text-blue-200/80 mt-0.5">
+                Compartilhe com os colegas de turma e equipe!
+              </p>
+            </div>
+          </div>
+
+          <button
+            onClick={() => shareApp()}
+            className="shrink-0 inline-flex items-center gap-1.5 px-3.5 py-2 bg-blue-600 hover:bg-blue-500 text-white font-extrabold text-xs rounded-xl shadow-md transition-all active:scale-95 cursor-pointer border border-blue-400/30"
+          >
+            <Share2 className="h-3.5 w-3.5" /> Compartilhar
+          </button>
         </div>
       </Card>
 

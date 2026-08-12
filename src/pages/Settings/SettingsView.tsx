@@ -1,8 +1,9 @@
 import React from 'react';
-import { Settings, Moon, Sun, Monitor, Bell, Info, Smartphone } from 'lucide-react';
+import { Settings, Moon, Sun, Monitor, Bell, Info, Smartphone, Share2 } from 'lucide-react';
 import { useAppStore } from '../../stores/appStore';
 import { useAuthStore } from '../../stores/authStore';
 import { Card } from '../../components/ui/Card';
+import { shareApp } from '../../utils/share';
 
 export const SettingsView: React.FC = () => {
   const { theme, setTheme, notificationsEnabled, setNotificationsEnabled } = useAppStore();
@@ -167,6 +168,31 @@ export const SettingsView: React.FC = () => {
           </div>
         </Card>
       )}
+
+      <Card className="space-y-3 bg-gradient-to-br from-blue-900/10 via-indigo-900/5 to-slate-900/10 border-blue-200/60 dark:border-blue-900/40">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="p-2 rounded-xl bg-blue-600 text-white shadow-md">
+              <Share2 className="h-5 w-5" />
+            </div>
+            <div>
+              <h3 className="text-sm font-bold text-slate-900 dark:text-white">Indique o Turno 3x3</h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400">
+                Compartilhe com seus colegas de equipe e trabalho!
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="pt-2 border-t border-slate-200/60 dark:border-slate-800 flex items-center gap-2">
+          <button
+            onClick={() => shareApp()}
+            className="flex-1 py-2.5 px-4 bg-blue-600 hover:bg-blue-500 text-white font-extrabold text-xs rounded-xl shadow-md flex items-center justify-center gap-2 transition-all active:scale-95 cursor-pointer"
+          >
+            <Share2 className="h-4 w-4" /> Compartilhar com Colegas
+          </button>
+        </div>
+      </Card>
 
       <Card className="space-y-3">
         <div className="flex items-center gap-2">

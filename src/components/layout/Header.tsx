@@ -1,15 +1,25 @@
-import React from 'react';
-import { Sun, Moon } from 'lucide-react';
+import React, { useState } from 'react';
+import { Sun, Moon, Share2, Check } from 'lucide-react';
 import { useAuthStore } from '../../stores/authStore';
 import { useAppStore } from '../../stores/appStore';
+import { shareApp } from '../../utils/share';
 
 export const Header: React.FC = () => {
   const { user } = useAuthStore();
   const { theme, setTheme } = useAppStore();
+  const [copied, setCopied] = useState(false);
 
   const toggleTheme = () => {
     if (theme === 'dark') setTheme('light');
     else setTheme('dark');
+  };
+
+  const handleShare = async () => {
+    const res = await shareApp();
+    if (res.method === 'clipboard' && res.success) {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2500);
+    }
   };
 
   return (
@@ -22,9 +32,7 @@ export const Header: React.FC = () => {
           className="h-9 w-auto object-contain shrink-0"
         />
 
-
         <div>
-          {/* Título sem o efeito de pílula/fundo no 3x3 */}
           <h1 className="text-base font-black tracking-tight text-slate-900 dark:text-white uppercase leading-none">
             TURNO 3x3
           </h1>
@@ -37,13 +45,32 @@ export const Header: React.FC = () => {
         </div>
       </div>
 
-      <button
-        onClick={toggleTheme}
-        className="rounded-xl p-2 text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800 transition-colors"
-        title="Alternar Tema"
-      >
-        {theme === 'dark' ? <Sun className="h-5 w-5 text-amber-400" /> : <Moon className="h-5 w-5 text-slate-600" />}
-      </button>
+      <div className="flex items-center gap-1">
+        {/* Botão de Compartilhar App */}
+        <button
+          onClick={handleShare}
+          className="relative rounded-xl p-2 text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800 transition-colors flex items-center gap-1 cursor-pointer"
+          title="Compartilhar o App Turno 3x3"
+        >
+          {copied ? (
+            <>
+              <Check className="h-5 w-5 text-emerald-500 animate-scale-in" />
+              <span className="text-[10px] font-black text-emerald-600 dark:text-emerald-400">Copiado!</span>
+            </>
+          ) : (
+            <Share2 className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+          )}
+        </button>
+
+        {/* Alternar Tema */}
+        <button
+          onClick={toggleTheme}
+          className="rounded-xl p-2 text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+          title="Alternar Tema"
+        >
+          {theme === 'dark' ? <Sun className="h-5 w-5 text-amber-400" /> : <Moon className="h-5 w-5 text-slate-600" />}
+        </button>
+      </div>
     </header>
   );
 };
