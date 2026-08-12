@@ -16,18 +16,18 @@ export const CustomManagedBanner: React.FC<CustomManagedBannerProps> = ({ ad }) 
   const whatsappLink = 'https://wa.me/5594988026574';
 
   return (
-    <div className="w-full my-3">
+    <div className="w-full my-4">
       <a
         href={whatsappLink}
         target="_blank"
         rel="noopener noreferrer"
-        className="block relative w-full overflow-hidden rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 active:scale-[0.99] border border-purple-200/60 dark:border-purple-900/40 cursor-pointer group"
-        title="Daiana Timóteo - Agende sua Avaliação (WhatsApp)"
+        className="block relative w-full overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 active:scale-[0.99] border border-purple-200 dark:border-purple-900/60 cursor-pointer group bg-purple-50 dark:bg-slate-900"
+        title="Daiana Timóteo - Estética Facial (WhatsApp)"
       >
         <img
           src={imageUrl}
-          alt="Daiana Timóteo - Agende sua Avaliação"
-          className="w-full h-auto object-cover rounded-2xl block group-hover:opacity-95 transition-opacity"
+          alt="Daiana Timóteo - Estética Facial"
+          className="w-full h-auto min-h-[100px] object-contain rounded-2xl block group-hover:opacity-95 transition-opacity"
         />
       </a>
     </div>
