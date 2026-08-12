@@ -12,8 +12,7 @@ try {
     (adsData.includes('Equipamentos') ||
       adsData.includes('banner-home-default') ||
       adsData.includes('banner-profile-default') ||
-      adsData.includes('unsplash.com') ||
-      adsData.includes('daiana-timoteo'))
+      adsData.includes('unsplash.com'))
   ) {
     localStorage.removeItem('turno3x3_managed_ads');
   }

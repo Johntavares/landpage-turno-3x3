@@ -1,5 +1,5 @@
 import React from 'react';
-import { ExternalLink, Sparkles } from 'lucide-react';
+import { ExternalLink, Sparkles, MessageCircle } from 'lucide-react';
 import type { Ad } from '../../types';
 import { Card } from './Card';
 
@@ -7,55 +7,67 @@ interface CustomManagedBannerProps {
   ad?: Ad;
 }
 
-/**
- * Componente de Banner Gerenciado pelo Painel Admin.
- * Se não houver nenhum anúncio ativo, o componente retorna NULL e não ocupa nenhum espaço na tela.
- */
 export const CustomManagedBanner: React.FC<CustomManagedBannerProps> = ({ ad }) => {
-  // Se não existir anúncio ou o anúncio estiver inativo, não renderiza nada!
-  if (!ad || !ad.active) {
+  const bannerAd: Ad = ad || {
+    id: 'banner-daiana-timoteo',
+    title: 'Daiana Timóteo - Agende sua Avaliação',
+    imageUrl: '/banner-daiana-timoteo.png',
+    link: 'https://wa.me/5594988026574?text=Ol%C3%A1!%20Vim%20pelo%20app%20Turno%203x3%20e%20gostaria%20de%20agendar%20uma%20avalia%C3%A7%C3%A3o.',
+    active: true,
+    location: 'HOME',
+    displayOrder: 1,
+  };
+
+  if (!bannerAd.active) {
     return null;
   }
 
-  const { title, imageUrl, link } = ad;
+  const { title, imageUrl, link } = bannerAd;
+  const isWhatsApp = link?.includes('wa.me') || link?.includes('whatsapp.com');
 
   return (
-    <Card className="relative overflow-hidden border border-slate-200 dark:border-slate-800 bg-linear-to-r from-blue-900/90 via-slate-900 to-indigo-950 p-4 text-white shadow-xl group">
-      {/* Imagem de Fundo com Blur sutil */}
-      {imageUrl && (
-        <div className="absolute inset-0 opacity-20 group-hover:opacity-30 transition-opacity">
-          <img src={imageUrl} alt={title} className="w-full h-full object-cover" />
-        </div>
-      )}
+    <Card className="relative overflow-hidden border border-purple-200/80 dark:border-purple-900/60 bg-linear-to-r from-purple-950 via-slate-900 to-indigo-950 p-2.5 sm:p-3.5 text-white shadow-xl group rounded-2xl">
+      <a
+        href={link || '#'}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="block relative overflow-hidden rounded-xl group/link cursor-pointer"
+      >
+        {/* Banner principal enviado pelo cliente */}
+        {imageUrl ? (
+          <img
+            src={imageUrl}
+            alt={title}
+            className="w-full h-auto object-cover rounded-xl shadow-md border border-white/10 transition-transform duration-300 group-hover/link:scale-[1.01]"
+          />
+        ) : (
+          <div className="p-4 bg-purple-900/50 rounded-xl">
+            <h4 className="font-extrabold text-sm text-white">{title}</h4>
+          </div>
+        )}
 
-      <div className="relative z-10 flex items-center justify-between gap-4">
-        <div className="flex items-center gap-3.5">
-          {imageUrl && (
-            <img
-              src={imageUrl}
-              alt={title}
-              className="h-14 w-14 rounded-2xl object-cover shadow-lg border border-white/20 shrink-0"
-            />
-          )}
-          <div>
-            <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-300 text-[10px] font-black uppercase tracking-wider mb-1 border border-blue-400/30">
-              <Sparkles className="w-3 h-3 text-amber-400" /> Banner Oficial
-            </div>
-            <h4 className="font-extrabold text-sm text-white line-clamp-1">{title}</h4>
+        {/* Rodapé interativo com chamada para o WhatsApp */}
+        <div className="mt-2.5 flex flex-wrap items-center justify-between gap-2 px-1">
+          <div className="flex items-center gap-1.5 text-purple-200 text-xs font-bold">
+            <Sparkles className="w-3.5 h-3.5 text-amber-400 animate-pulse" />
+            <span className="line-clamp-1">Daiana Timóteo • (94) 98802-6574</span>
+          </div>
+
+          <div className="shrink-0 inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-xs rounded-xl shadow-lg transition-all active:scale-95 cursor-pointer border border-emerald-400/30">
+            {isWhatsApp ? (
+              <>
+                <MessageCircle className="w-4 h-4 text-white" />
+                <span>Agendar no WhatsApp</span>
+              </>
+            ) : (
+              <>
+                <span>Acessar Anúncio</span>
+                <ExternalLink className="w-3.5 h-3.5" />
+              </>
+            )}
           </div>
         </div>
-
-        {link && link !== '#' && (
-          <a
-            href={link}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="shrink-0 inline-flex items-center gap-1 px-3.5 py-2 bg-blue-600 hover:bg-blue-500 text-white font-extrabold text-xs rounded-xl shadow-md transition-all active:scale-95 cursor-pointer"
-          >
-            Acessar <ExternalLink className="w-3.5 h-3.5" />
-          </a>
-        )}
-      </div>
+      </a>
     </Card>
   );
 };

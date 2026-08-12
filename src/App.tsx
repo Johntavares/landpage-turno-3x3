@@ -69,7 +69,7 @@ export const App: React.FC = () => {
   // Exibir Painel Administrativo se ativado
   if (showAdmin) {
     return (
-      <div className="min-h-screen bg-slate-950 p-4">
+      <div className="dark min-h-screen bg-slate-950 p-4 text-slate-100">
         <div className="max-w-6xl mx-auto">
           <AdminView onBack={() => setShowAdmin(false)} />
         </div>

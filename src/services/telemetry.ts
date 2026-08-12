@@ -75,14 +75,19 @@ export async function syncPendingOfflineLogs(): Promise<void> {
   const pending = getPendingOfflineLogs();
   if (pending.length === 0) return;
 
+  const remainingLogs = [...pending];
   try {
-    for (const log of pending) {
+    while (remainingLogs.length > 0) {
+      const log = remainingLogs[0];
       await sendLogToDatabase({ ...log, isOffline: true });
+      remainingLogs.shift();
     }
-    // Limpa a fila após sincronizar com sucesso
     localStorage.removeItem(OFFLINE_LOGS_KEY);
     console.log(`[Telemetry] Sincronizados ${pending.length} acessos offline salvos anteriormente.`);
   } catch (err) {
+    if (remainingLogs.length < pending.length) {
+      localStorage.setItem(OFFLINE_LOGS_KEY, JSON.stringify(remainingLogs));
+    }
     console.warn('[Telemetry] Falha ao sincronizar acessos offline:', err);
   }
 }

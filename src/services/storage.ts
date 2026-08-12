@@ -61,13 +61,22 @@ export function saveLocalCustomHolidays(holidays: Holiday[]): void {
   localStorage.setItem(STORAGE_KEYS.CUSTOM_HOLIDAYS, JSON.stringify(holidays));
 }
 
+const defaultDaianaAd: Ad = {
+  id: 'banner-daiana-timoteo',
+  title: 'Daiana Timóteo - Agende sua Avaliação',
+  imageUrl: '/banner-daiana-timoteo.png',
+  link: 'https://wa.me/5594988026574?text=Ol%C3%A1!%20Vim%20pelo%20app%20Turno%203x3%20e%20gostaria%20de%20agendar%20uma%20avalia%C3%A7%C3%A3o.',
+  active: true,
+  location: 'HOME',
+  displayOrder: 1,
+};
+
 export function getLocalAds(): Ad[] {
   const data = localStorage.getItem(STORAGE_KEYS.ADS);
-  if (!data) return [];
+  if (!data) return [defaultDaianaAd];
   try {
     const parsed: Ad[] = JSON.parse(data);
-    // Purga anúncios de teste antigos
-    return parsed.filter(
+    const filtered = parsed.filter(
       (a) =>
         a.id !== 'banner-home-default' &&
         a.id !== 'banner-profile-default' &&
@@ -75,8 +84,9 @@ export function getLocalAds(): Ad[] {
         !a.title?.includes('Equipamentos') &&
         !a.title?.includes('Turno 3x3 Pro')
     );
+    return filtered.length > 0 ? filtered : [defaultDaianaAd];
   } catch {
-    return [];
+    return [defaultDaianaAd];
   }
 }
 
