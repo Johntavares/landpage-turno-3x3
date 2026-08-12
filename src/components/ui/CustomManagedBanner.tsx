@@ -30,6 +30,7 @@ export const CustomManagedBanner: React.FC<CustomManagedBannerProps> = ({ ad }) 
             src={imageUrl}
             alt="Daiana Timóteo - Estética Facial"
             className="w-full h-auto object-cover rounded-xl block group-hover:scale-[1.01] transition-transform duration-300"
+            style={{ imageRendering: '-webkit-optimize-contrast' }}
           />
         </div>
 
