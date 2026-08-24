@@ -17,6 +17,7 @@ export const AdminView: React.FC<AdminViewProps> = ({ onBack }) => {
   const [loading, setLoading] = useState(false);
   const [profiles, setProfiles] = useState<any[]>([]);
   const [accessLogs, setAccessLogs] = useState<AccessLog[]>([]);
+  const [stats, setStats] = useState<any>(null);
   const [searchTerm, setSearchTerm] = useState('');
 
   // Estados de Gerenciamento de Banners
@@ -44,6 +45,7 @@ export const AdminView: React.FC<AdminViewProps> = ({ onBack }) => {
     const data = await fetchAdminStats();
     setProfiles(data.profiles);
     setAccessLogs(data.accessLogs as AccessLog[]);
+    setStats(data.stats);
     
     // Carregar Banners Gerenciados
     const ads = getLocalAds();
@@ -160,12 +162,18 @@ export const AdminView: React.FC<AdminViewProps> = ({ onBack }) => {
     );
   }
 
-  // Cálculos das métricas
-  const totalUsers = profiles.length;
-  const totalLogs = accessLogs.length;
-  const offlineLogsCount = accessLogs.filter((l) => l.isOffline).length;
-  const todayStr = new Date().toISOString().split('T')[0];
-  const todayAccessCount = accessLogs.filter((l) => l.timestamp && l.timestamp.startsWith(todayStr)).length;
+  // Cálculos das métricas (as contagens vêm agregadas do banco em `stats`)
+  const s = stats || {
+    totalLogs: 0,
+    alcance: 0,
+    ativosHoje: 0,
+    ativos7d: 0,
+    ativos30d: 0,
+    usuariosCadastrados: 0,
+    anonimos: 0,
+    offline: 0,
+    porPlataforma: [],
+  };
 
   const teamCounts = {
     A: profiles.filter((p) => p.team === 'A').length,
@@ -214,29 +222,56 @@ export const AdminView: React.FC<AdminViewProps> = ({ onBack }) => {
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <Card className="p-4 bg-slate-900 border-slate-800 space-y-1">
           <div className="flex items-center justify-between text-slate-400">
-            <span className="text-xs font-bold uppercase tracking-wider">Usuários Totais</span>
-            <Users className="w-4 h-4 text-blue-400" />
+            <span className="text-xs font-bold uppercase tracking-wider">Alcance (Aparelhos)</span>
+            <Smartphone className="w-4 h-4 text-emerald-400" />
           </div>
-          <div className="text-2xl font-black text-white">{totalUsers}</div>
-          <p className="text-[10px] text-slate-400 font-medium">Cadastrados no banco PostgreSQL</p>
+          <div className="text-2xl font-black text-emerald-400">{s.alcance}</div>
+          <p className="text-[10px] text-slate-400 font-medium">Dispositivos únicos (com ou sem login)</p>
         </Card>
 
         <Card className="p-4 bg-slate-900 border-slate-800 space-y-1">
           <div className="flex items-center justify-between text-slate-400">
-            <span className="text-xs font-bold uppercase tracking-wider">Acessos Hoje</span>
+            <span className="text-xs font-bold uppercase tracking-wider">Ativos Hoje</span>
             <Activity className="w-4 h-4 text-emerald-400" />
           </div>
-          <div className="text-2xl font-black text-emerald-400">{todayAccessCount}</div>
-          <p className="text-[10px] text-slate-400 font-medium">Sessões computadas nas 24h</p>
+          <div className="text-2xl font-black text-emerald-400">{s.ativosHoje}</div>
+          <p className="text-[10px] text-slate-400 font-medium">Dispositivos ativos hoje (fuso BR)</p>
         </Card>
 
         <Card className="p-4 bg-slate-900 border-slate-800 space-y-1">
           <div className="flex items-center justify-between text-slate-400">
-            <span className="text-xs font-bold uppercase tracking-wider">Acessos Offline</span>
-            <WifiOff className="w-4 h-4 text-cyan-400" />
+            <span className="text-xs font-bold uppercase tracking-wider">Ativos 7 dias</span>
+            <Activity className="w-4 h-4 text-blue-400" />
           </div>
-          <div className="text-2xl font-black text-cyan-400">{offlineLogsCount}</div>
-          <p className="text-[10px] text-slate-400 font-medium">Sincronizados após reconectar</p>
+          <div className="text-2xl font-black text-blue-400">{s.ativos7d}</div>
+          <p className="text-[10px] text-slate-400 font-medium">Dispositivos nos últimos 7 dias</p>
+        </Card>
+
+        <Card className="p-4 bg-slate-900 border-slate-800 space-y-1">
+          <div className="flex items-center justify-between text-slate-400">
+            <span className="text-xs font-bold uppercase tracking-wider">Ativos 30 dias</span>
+            <Activity className="w-4 h-4 text-indigo-400" />
+          </div>
+          <div className="text-2xl font-black text-indigo-400">{s.ativos30d}</div>
+          <p className="text-[10px] text-slate-400 font-medium">Dispositivos nos últimos 30 dias</p>
+        </Card>
+
+        <Card className="p-4 bg-slate-900 border-slate-800 space-y-1">
+          <div className="flex items-center justify-between text-slate-400">
+            <span className="text-xs font-bold uppercase tracking-wider">Usuários Cadastrados</span>
+            <Users className="w-4 h-4 text-blue-400" />
+          </div>
+          <div className="text-2xl font-black text-white">{s.usuariosCadastrados}</div>
+          <p className="text-[10px] text-slate-400 font-medium">E-mails distintos (logados)</p>
+        </Card>
+
+        <Card className="p-4 bg-slate-900 border-slate-800 space-y-1">
+          <div className="flex items-center justify-between text-slate-400">
+            <span className="text-xs font-bold uppercase tracking-wider">Anônimos</span>
+            <Users className="w-4 h-4 text-slate-400" />
+          </div>
+          <div className="text-2xl font-black text-slate-300">{s.anonimos}</div>
+          <p className="text-[10px] text-slate-400 font-medium">Aparelhos sem login</p>
         </Card>
 
         <Card className="p-4 bg-slate-900 border-slate-800 space-y-1">
@@ -244,10 +279,37 @@ export const AdminView: React.FC<AdminViewProps> = ({ onBack }) => {
             <span className="text-xs font-bold uppercase tracking-wider">Total de Sessões</span>
             <Database className="w-4 h-4 text-indigo-400" />
           </div>
-          <div className="text-2xl font-black text-white">{totalLogs}</div>
-          <p className="text-[10px] text-slate-400 font-medium">Registros em tempo real</p>
+          <div className="text-2xl font-black text-white">{s.totalLogs}</div>
+          <p className="text-[10px] text-slate-400 font-medium">1 registro por aparelho+dia</p>
+        </Card>
+
+        <Card className="p-4 bg-slate-900 border-slate-800 space-y-1">
+          <div className="flex items-center justify-between text-slate-400">
+            <span className="text-xs font-bold uppercase tracking-wider">Acessos Offline</span>
+            <WifiOff className="w-4 h-4 text-cyan-400" />
+          </div>
+          <div className="text-2xl font-black text-cyan-400">{s.offline}</div>
+          <p className="text-[10px] text-slate-400 font-medium">Sincronizados após reconectar</p>
         </Card>
       </div>
+
+      {/* Distribuição por Plataforma (aparelhos reais) */}
+      <Card className="space-y-3 bg-slate-900 border-slate-800">
+        <h3 className="text-xs font-black uppercase tracking-wider text-slate-400">
+          Dispositivos por Plataforma
+        </h3>
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+          {(s.porPlataforma && s.porPlataforma.length > 0
+            ? s.porPlataforma
+            : [{ platform: 'Sem dados', total: 0 }]
+          ).map((p: any) => (
+            <div key={p.platform} className="p-3 bg-slate-950 rounded-2xl border border-slate-800">
+              <span className="text-[10px] font-bold text-slate-400 block truncate">{p.platform}</span>
+              <span className="text-lg font-black text-sky-400">{p.total}</span>
+            </div>
+          ))}
+        </div>
+      </Card>
 
       {/* SEÇÃO NOVISSIMA: GERENCIADOR DE BANNERS & ANÚNCIOS */}
       <Card className="space-y-6 bg-slate-900 border-2 border-blue-500/40 p-6 text-white shadow-2xl">
@@ -510,6 +572,7 @@ export const AdminView: React.FC<AdminViewProps> = ({ onBack }) => {
                 <th className="py-2.5 px-3">Turma</th>
                 <th className="py-2.5 px-3">Modo</th>
                 <th className="py-2.5 px-3">Plataforma</th>
+                <th className="py-2.5 px-3">Aparelho</th>
                 <th className="py-2.5 px-3">Horário / Data</th>
               </tr>
             </thead>
@@ -530,10 +593,13 @@ export const AdminView: React.FC<AdminViewProps> = ({ onBack }) => {
                         </span>
                       )}
                     </td>
-                    <td className="py-3 px-3 text-slate-400 flex items-center gap-1.5">
-                      <Smartphone className="w-3.5 h-3.5 text-slate-500" /> {log.platform || 'Web/Mobile'}
-                    </td>
-                    <td className="py-3 px-3 font-mono text-slate-400">
+                  <td className="py-3 px-3 text-slate-400 flex items-center gap-1.5">
+                       <Smartphone className="w-3.5 h-3.5 text-slate-500" /> {log.platform || 'Web/Mobile'}
+                     </td>
+                     <td className="py-3 px-3 font-mono text-slate-500 text-[10px]">
+                       {log.deviceId ? log.deviceId.slice(-6) : '--'}
+                     </td>
+                     <td className="py-3 px-3 font-mono text-slate-400">
                       {log.timestamp ? new Date(log.timestamp).toLocaleString('pt-BR') : '--'}
                     </td>
                   </tr>

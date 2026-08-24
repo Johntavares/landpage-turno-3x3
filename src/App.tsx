@@ -31,10 +31,12 @@ export const App: React.FC = () => {
   const [showAdmin, setShowAdmin] = useState(false);
 
 
-  // Registrar acesso/telemetria no início (funciona online e offline)
+  // Registrar acesso/telemetria no início (funciona online e offline).
+  // O trackAppAccess já faz dedupe por dispositivo+email+dia, então é seguro
+  // chamar quando o usuário entra ou faz login.
   useEffect(() => {
     if (!showLandingPage) {
-      trackAppAccess(user?.email || 'visitante@turno3x3.app', user?.team || 'A');
+      trackAppAccess(user?.email || 'anon', user?.team || 'A');
     }
   }, [showLandingPage, user]);
 
